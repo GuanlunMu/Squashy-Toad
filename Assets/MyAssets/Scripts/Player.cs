@@ -24,11 +24,14 @@ public class Player : MonoBehaviour {
 	{
 		print (flying);
 		if (!flying) {
-			Vector3 projectedVector = Vector3.ProjectOnPlane (head.Gaze.direction, Vector3.up);
-			Vector3 jumpVector = Vector3.RotateTowards (projectedVector, Vector3.up, 1.0f, 0.0f);
+			Vector3 jumpVector = Vector3.RotateTowards (GetLookDirection(), Vector3.up, 1.0f, 0.0f);
 			rb.velocity = jumpVector * power;
 			flying = true;
 		}
+	}
+
+	public Vector3 GetLookDirection() {
+		return Vector3.ProjectOnPlane (head.Gaze.direction, Vector3.up);
 	}
 	
 	// Update is called once per frame
