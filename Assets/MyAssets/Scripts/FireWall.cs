@@ -9,9 +9,18 @@ public class FireWall : MonoBehaviour {
 
 	Vector3 previousPlayerPosition;
 	GameObject fireWall;
+	GameObject gameState;
+
+	void Awake() {
+		gameState = GameObject.Find("GameState");
+	}
 
 	Vector3 getFirePosition(Vector3 playerPosition) {
 		return new Vector3 (playerPosition.x, 1.0f, playerPosition.z-1);
+	}
+
+	public bool playerIsDead() {
+		return fireWall.transform.position.z > player.transform.position.z;
 	}
 
 	void moveAlongPlayer() {
@@ -21,11 +30,7 @@ public class FireWall : MonoBehaviour {
 			previousPlayerPosition = currentPlayerPosition;
 		}
 	}
-
-//	void autoMoveForward() {
-//		fireWall.transform.position.z += (movingSpeed * Time.deltaTime);
-//	}
-
+		
 	// Use this for initialization
 	void Start () {
 		movingSpeed = 0.2f;
@@ -35,7 +40,12 @@ public class FireWall : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		moveAlongPlayer ();
-		fireWall.transform.position += (Vector3.forward * movingSpeed * Time.deltaTime);
+		if (!playerIsDead ()) {
+			moveAlongPlayer ();
+			fireWall.transform.position += (Vector3.forward * movingSpeed * Time.deltaTime);
+		}
+		if (playerIsDead ()) {
+			gameState.GetComponent<GameState> ().showGameOverInterface ();
+		}
 	}
 }

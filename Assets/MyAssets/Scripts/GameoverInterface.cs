@@ -7,11 +7,13 @@ public class GameoverInterface : MonoBehaviour {
 	public float UIDistance;
 	public float UIHeight;
 
+
 	void Awake() {
 		playerScript = GameObject.FindObjectOfType<Player> ();
 	}
 	// Use this for initialization
 	void Start () {
+		gameObject.SetActive (false);
 		UIDistance = 200.0f;
 		UIHeight = 95.0f;
 	}
